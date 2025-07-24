@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression as SklearnLinearRegression
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
+import numba
 
 class LinearRegression:
     def __init__(self, learning_rate=0.01, n_iterations=1000):
@@ -10,7 +11,7 @@ class LinearRegression:
         self.weights = None
         self.bias = None
         self.cost_history = []
-
+    
     def fit(self, X, y):
         # Ensure X and y are numpy arrays
         X = np.array(X)
@@ -41,11 +42,11 @@ class LinearRegression:
             # Compute cost
             cost = (1/(2*n_samples)) * np.sum((y_predicted - y)**2)
             self.cost_history.append(cost)
-
+    
     def predict(self, X):
         X = np.array(X)
         return np.dot(X, self.weights) + self.bias
-
+    
     def score(self, X, y):
         y = np.array(y)
         if len(y.shape) == 1:
